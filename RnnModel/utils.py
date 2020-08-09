@@ -163,11 +163,33 @@ def sequenceForToken(filename,outfile):
     with open(abspath + outfile,'w') as f:
         f.write(new_line)
         f.close()
-
+def sequenceForToken2(filename,outfile):
+  """生成适合Tokenizer()类的文件"""
+  with open(abspath + filename,'r') as f:
+      lines = f.readlines()
+      new_line = ''   #构建存储句子的列表
+      for line in lines:
+          line = line.strip(' ')
+          if len(line) < 5:  # 如果句子长度小于5，舍弃
+              continue
+          for i in line:
+              if i == '，' or i == '。' or i == '？' or i == '；' or i == '！' or i == ',':
+                  if i == ',':
+                      i = '，'
+                  new_line += (i + '\n')
+              elif i == '\n' or i == ' ':
+                  pass
+              else:
+                  new_line += (i)
+          print(new_line)
+  with open(abspath + outfile,'w') as f:
+      f.write(new_line)
+      f.close()
 if __name__ == "__main__":
     # dataclean('\\libai_poems.jason')
     # combine_words('\clean_poems.txt','\combine_words.txt')
     #gram_1_LM('\combine_words.txt','\LMs\LM_1.txt')
     #gram_2_LM('\combine_words.txt','\LMs\LM_2.txt')
     #gram_3_LM('\combine_words.txt', '\LMs\LM_3.txt')
-    sequenceForToken('\clean_poems.txt', '\Tokens.txt')
+    #sequenceForToken('\clean_poems.txt', '\Tokens.txt')
+    sequenceForToken2('\clean_poems.txt', '\Tokens2.txt')
